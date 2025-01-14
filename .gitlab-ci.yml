@@ -1,4 +1,5 @@
 variables:
+  REGISTRY_PATH: docker.infra.cloveri.com
   IMAGE: cloveri.start/step/configs_registry
 
 build_image:
@@ -10,9 +11,9 @@ build_image:
  variables:
   DOCKER_TLS_CERTDIR: "/certs"
  before_script:
-  - echo "$CI_DEPLOY_PASSWORD" | docker login $CI_REGISTRY -u $CI_DEPLOY_USER --password-stdin
+  - echo "$CI_DEPLOY_PASSWORD" | docker login $REGISTRY_PATH -u $CI_DEPLOY_USER --password-stdin
  script:
-  - docker build -t $CI_REGISTRY/$IMAGE .
-  - docker push $CI_REGISTRY/$IMAGE
+  - docker build -t $REGISTRY_PATH/$IMAGE .
+  - docker push $REGISTRY_PATH/$IMAGE
  rules:
   - if: $CI_COMMIT_BRANCH == "master"
